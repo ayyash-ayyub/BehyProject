@@ -1,0 +1,36 @@
+<resources>
+    <string name="app_name">Behy</string>
+    <string name="title_activity_welcome">Home Screen</string>
+    <string name="next">NEXT</string>
+    <string name="skip">SKIP</string>
+    <string name="start">Mulai</string>
+
+    <string name="slide_1_title">Selamat Datang</string>
+    <string name="slide_1_desc">be healty youth</string>
+
+    <string name="slide_2_title">Makan</string>
+    <string name="slide_2_desc">beranekaragam</string>
+
+    <string name="slide_3_title">Aktifitas</string>
+    <string name="slide_3_desc">Fisik</string>
+
+    <string name="slide_4_title">Timbang </string>
+    <string name="slide_4_desc">Berat badan</string>
+    <string name="slide_4_desc2">Rutin</string>
+
+    <string name="slide_5_title">Hidup </string>
+    <string name="slide_5_desc">Bersih</string>
+    <string name="slide_5_desc2">Sehat</string>
+
+    <string name="play_again_desc">Anda belum mempunyai akun bhay?</string>
+
+
+    <string name="item_1">My Behy</string>
+    <string name="item_2">Buku Harian</string>
+    <string name="item_3">Tips Sehat</string>
+    <string name="item_4">Info Sehat</string>
+    <string name="item_5">Inbox</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>

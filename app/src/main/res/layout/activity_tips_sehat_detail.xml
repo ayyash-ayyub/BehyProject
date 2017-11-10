@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="adompo.ayyash.behay.TipsSehatDetail">
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        app:title="Detail Tips Sehat"
+        android:background="?attr/colorPrimary"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark"/>
+    <ImageSwitcher
+        android:layout_width="match_parent"
+        android:layout_height="148dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="144dp">
+
+            <ImageView
+                android:id="@+id/imgTumb"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:scaleType="centerCrop"
+                app:srcCompat="@drawable/banner_news" />
+
+            <TextView
+                android:id="@+id/txtJudul"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/txtLabel"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginBottom="12dp"
+                android:layout_marginLeft="25dp"
+                android:layout_marginStart="25dp"
+                android:text="Pedoman Umum Gizi Seimbang"
+                android:textColor="@color/cardview_light_background"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/txtTgl"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="15dp"
+                android:layout_marginLeft="14dp"
+                android:layout_marginStart="14dp"
+                android:layout_toEndOf="@+id/txtLabel"
+                android:layout_toRightOf="@+id/txtLabel"
+                android:text="08/11/2017"
+                android:textColor="@color/cardview_light_background" />
+
+            <TextView
+                android:id="@+id/txtLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/txtTgl"
+                android:layout_alignLeft="@+id/txtJudul"
+                android:layout_alignStart="@+id/txtJudul"
+                android:background="@android:color/holo_red_light"
+                android:gravity="center"
+                android:padding="3dp"
+                android:text="TIPS SEHAT"
+                android:textColor="@color/cardview_light_background" />
+
+        </RelativeLayout>
+    </ImageSwitcher>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="15dp">
+
+            <TextView
+                android:id="@+id/txtDetail"
+                android:layout_width="332dp"
+                android:layout_height="wrap_content"
+                android:text="" />
+        </LinearLayout>
+    </ScrollView>
+
+
+
+
+</LinearLayout>
