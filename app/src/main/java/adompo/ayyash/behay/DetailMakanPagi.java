@@ -166,6 +166,11 @@ public class DetailMakanPagi extends AppCompatActivity {
         loadUrt(idMakanan);
     }
 
+
+    private void ekoGila(){
+        System.out.println();
+        int gila=100;
+    }
     private void loadUrt(int id) {
         progressDialog.show();
         RequestQueue queue = Volley.newRequestQueue(this);
