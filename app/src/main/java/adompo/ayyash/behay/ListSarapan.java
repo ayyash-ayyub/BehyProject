@@ -80,7 +80,7 @@ public class ListSarapan extends AppCompatActivity implements AktifitasSarapanAd
         Intent receiveIntent = getIntent();
         int idJenisMakanan = receiveIntent.getExtras().getInt("id", 0);
 
-     //   System.out.println("http://administrator.behy.co/User/getListAsupanMakanan/" + ambilEmail + "/" + idJenisMakanan);
+        System.out.println("http://administrator.behy.co/User/getListAsupanMakanan/" + ambilEmail + "/" + idJenisMakanan);
         getListSarapan("http://administrator.behy.co/User/getListAsupanMakanan/" + ambilEmail + "/" + idJenisMakanan);
     }
 
@@ -124,5 +124,7 @@ public class ListSarapan extends AppCompatActivity implements AktifitasSarapanAd
         i.putExtra("id_waktu_makan", idJenisMakanan);
         i.putExtra("id_makanan", id);
         startActivity(i);
+
+        finish();
     }
 }

@@ -2,11 +2,13 @@ package adompo.ayyash.behay;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Toast;
 
@@ -59,8 +61,39 @@ public class SarapanActivity extends AppCompatActivity implements AsupanAdapter.
             }
         });
 
-        Intent receiveIntent = getIntent();
-        idJenisMakan = receiveIntent.getExtras().getInt("id", 0);
+        Intent i = getIntent();
+        idJenisMakan = i.getExtras().getInt("id", 0);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+       // toolbar.setForeground(Color.blue());
+        toolbar.setTitleTextColor(Color.WHITE);
+        toolbar.setTitle(getTitle(idJenisMakan));
+        setSupportActionBar(toolbar);
+    }
+
+    private String getTitle(int id) {
+        String title = "";
+        switch (idJenisMakan) {
+            case 1:
+                title = "Rekam sarapan pagi";
+                break;
+            case 2:
+                title = "Rekam selingan pagi";
+                break;
+            case 3:
+                title = "Rekam Makan Siang";
+                break;
+            case 4:
+                title = "Rekam selingan siang";
+                break;
+            case 5:
+                title = "Rekam makan malam";
+                break;
+            case 6:
+                title = "Rekam selingan malam";
+                break;
+        }
+        return title;
     }
 
     @Override

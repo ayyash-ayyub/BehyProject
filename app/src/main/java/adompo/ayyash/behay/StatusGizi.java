@@ -283,12 +283,15 @@ public class StatusGizi extends Fragment {
             tr.addView(tvTanggal);
 
             tvUmur = new TextView(getContext());
-            tvUmur.setText(String.format("%s,%s", model.getUmur().getTahun(), model.getUmur()));
+           // tvUmur.setText(String.format("%s,%s", model.getUmur().getTahun(), model.getUmur()));
+            tvUmur.setText(String.format("%s,%s", model.getUmur().getTahun(), model.getUmur().getBulan()));
             tvUmur.setTextColor(Color.BLACK);
             tvUmur.setTypeface(Typeface.DEFAULT, Typeface.NORMAL);
             tvUmur.setPadding(5,20,5,20);
             tvUmur.setGravity(Gravity.CENTER);
             tr.addView(tvUmur);
+
+
 
             tvIMT = new TextView(getContext());
             tvIMT.setText(String.format("%.2f", model.getImt().floatValue()));

@@ -56,6 +56,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="100 kal/mnt"
+                android:layout_marginRight="15dp"
                 android:textAlignment="textEnd"
                 android:textColor="@color/colorPrimary"
                 android:textSize="24sp" />
@@ -65,6 +66,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:layout_marginLeft="7dp"
                 android:text="Total aktifitas dilakukan (menit)" />
 
             <LinearLayout
@@ -104,6 +106,7 @@
                 android:id="@+id/btnSave"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+
                 android:layout_weight="0.001"
                 android:text="Simpan" />
 

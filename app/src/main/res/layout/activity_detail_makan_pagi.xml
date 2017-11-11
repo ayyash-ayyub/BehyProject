@@ -9,7 +9,7 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        app:title="Detail Tips Sehat"
+        app:title="tambahkan asupan makan"
         android:background="?attr/colorPrimary"
         android:theme="@style/ThemeOverlay.AppCompat.Dark"/>
 
@@ -57,6 +57,7 @@
                 android:layout_weight="1"
                 android:text="100 kal/mnt"
                 android:textAlignment="textEnd"
+                android:layout_marginRight="15dp"
                 android:textColor="@color/colorPrimary"
                 android:textSize="24sp" />
 
@@ -64,7 +65,8 @@
                 android:id="@+id/textView27"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Ukuran Rumah Tangga (URT)" />
+                android:layout_marginLeft="7dp"
+                android:text="pilih Ukuran Rumah Tangga (URT)" />
 
             <Spinner
                 android:id="@+id/urt"
@@ -76,6 +78,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:layout_marginLeft="7dp"
                 android:text="Total yang dikonsumsi" />
 
             <LinearLayout

@@ -3,9 +3,7 @@ package adompo.ayyash.behay.AsupanMakan;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-/**
- * Created by adwiarifin on 11/9/2017.
- */
+
 
 public class Asupan {
     @SerializedName("id_makanan")

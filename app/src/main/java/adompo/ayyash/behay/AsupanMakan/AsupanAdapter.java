@@ -13,9 +13,7 @@ import java.util.List;
 
 import adompo.ayyash.behay.R;
 
-/**
- * Created by adwiarifin on 11/9/2017.
- */
+
 
 public class AsupanAdapter extends RecyclerView.Adapter<AsupanAdapter.AsupanViewHolder> {
 
