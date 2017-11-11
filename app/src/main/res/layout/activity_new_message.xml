@@ -59,6 +59,8 @@
     </LinearLayout>
 
     <Button
+        android:theme="@style/PrimaryButton"
+        android:id="@+id/btnSend"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Send" />

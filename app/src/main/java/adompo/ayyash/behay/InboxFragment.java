@@ -1,22 +1,22 @@
 package adompo.ayyash.behay;
 
-import android.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
+
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebSettings;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
 
-public class Inbox extends Fragment {
+/**
+ * A simple {@link Fragment} subclass.
+ */
+public class InboxFragment extends Fragment {
 
-    public Inbox newInstance() {
-        Inbox fragment = new Inbox();
+
+    public InboxFragment newInstance() {
+        InboxFragment fragment = new InboxFragment();
         return fragment;
     }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,9 +25,11 @@ public class Inbox extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.activity_inbox, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_map1, container, false);
+
         // Inflate the layout for this fragment
 
         return rootView;
     }
+
 }

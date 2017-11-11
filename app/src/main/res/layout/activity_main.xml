@@ -49,6 +49,7 @@
             android:inputType="textPassword" />
 
         <Button
+            android:theme="@style/PrimaryButton"
             android:id="@+id/btnLoginn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

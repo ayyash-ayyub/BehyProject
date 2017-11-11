@@ -75,8 +75,8 @@ public class UtamaActivity extends AppCompatActivity {
                                 selectedFragment = InfoSehat.newInstance();
                                 break;
                             case R.id.action_item5:
-                               // selectedFragment = TipsSehat.newInstance();
-                                Toast.makeText(UtamaActivity.this, "Inbox", Toast.LENGTH_SHORT).show();
+                                selectedFragment = InfoSehat.newInstance();
+//                                Toast.makeText(UtamaActivity.this, "Inbox", Toast.LENGTH_SHORT).show();
                                 break;
                         }
                         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();

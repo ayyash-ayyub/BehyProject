@@ -29,18 +29,18 @@ public class InfoSehat extends Fragment {
 
         Bundle arg1 = new Bundle();
         arg1.putInt("Arg for Frag1", 1);
-        tabHost.addTab(tabHost.newTabSpec("Tab1").setIndicator("Asupan Makanan"),
-                AsupanMakanan.class, arg1);
+        tabHost.addTab(tabHost.newTabSpec("Tab1").setIndicator("Pelayanan Kesehatan"),
+                Map1Fragment.class, arg1);
 
 
         Bundle arg2 = new Bundle();
         arg2.putInt("Arg for Frag2", 2);
-        tabHost.addTab(tabHost.newTabSpec("Tab2").setIndicator("Aktivitas Fisik"),
+        tabHost.addTab(tabHost.newTabSpec("Tab2").setIndicator("Tempat Olahraga"),
                 AktivitasFisik.class, arg2);
 
         Bundle arg3 = new Bundle();
         arg3.putInt("Arg for Frag2", 3);
-        tabHost.addTab(tabHost.newTabSpec("Tab3").setIndicator("Kondisi Tubuh"),
+        tabHost.addTab(tabHost.newTabSpec("Tab3").setIndicator("Jadwal Olahraga"),
                 KondisiTubuh.class, arg3);
 
         return tabHost;

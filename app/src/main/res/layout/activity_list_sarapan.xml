@@ -29,6 +29,7 @@
             android:inputType="textPersonName" />
 
         <Button
+            android:theme="@style/PrimaryButton"
             android:id="@+id/activitySarapanButt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
