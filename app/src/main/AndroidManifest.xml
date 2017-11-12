@@ -41,7 +41,8 @@
         <activity android:name=".DetilAktifitas" />
         <activity android:name=".SarapanActivity" />
         <activity android:name=".ListSarapan" />
-        <activity android:name=".NewMessage" />
+        <activity android:name=".NewMessage"
+            android:theme="@style/Theme.AppCompat.Dialog"/>
         <activity android:name=".DetailMakanPagi"></activity>
     </application>
 
