@@ -120,6 +120,26 @@ public class UtamaActivity extends AppCompatActivity {
                     Intent i = new Intent(UtamaActivity.this, LoginActivity.class);
                     startActivity(i);
                     finish();
+                }else if (title.equals("Profile")){
+                    Intent i = new Intent(UtamaActivity.this, Profile.class);
+                    startActivity(i);
+                }else if (title.equals("Feedback")){
+                    Fragment selectedFragment = null;
+                    selectedFragment = InboxFragment.newInstance();
+                    FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                    transaction.replace(R.id.frame_layout, selectedFragment);
+                    transaction.commit();
+                }else if (title.equals("Support")){
+                    Intent i = new Intent(UtamaActivity.this, Support.class);
+                    startActivity(i);
+                }else if (title.equals("Syarat dan Ketentuan")){
+                    Intent i = new Intent(UtamaActivity.this, Syarat.class);
+                    startActivity(i);
+                }else if (title.equals("Panduan")){
+                    Intent i = new Intent(UtamaActivity.this, Panduan.class);
+                    startActivity(i);
+                }else if (title.equals("Share Behy")){
+
                 }
 
                 //Closing drawer on item click
