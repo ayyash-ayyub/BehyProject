@@ -15,6 +15,12 @@
         android:background="?attr/colorPrimary"
         android:layout_marginBottom="10dp"
         android:theme="@style/ThemeOverlay.AppCompat.Dark"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="TextView" />
+
     <LinearLayout
         android:layout_marginTop="10dp"
         android:layout_width="match_parent"
@@ -29,8 +35,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
+
             android:hint="Subject"
-            android:inputType="textPersonName" />
+            android:inputType="textPersonName"
+            android:singleLine="false"
+            android:textColor="@color/bg_screen5" />
     </LinearLayout>
 
     <LinearLayout
@@ -46,21 +55,24 @@
             android:textStyle="bold"
             android:textSize="20dp"
             android:layout_height="wrap_content" />
+
         <EditText
 
-            android:padding="5dp"
             android:id="@+id/editText"
             android:layout_width="match_parent"
-            android:layout_height="239dp"
-
+            android:layout_height="wrap_content"
             android:ems="10"
-
-            android:inputType="textMultiLine" />
+            android:inputType="textMultiLine"
+            android:lines="8"
+            android:minLines="6"
+            android:gravity="top|left"
+            android:maxLines="10"
+            android:scrollbars="vertical"
+            android:padding="5dp"
+            android:textColor="@color/cardview_dark_background" />
     </LinearLayout>
 
     <Button
-        android:theme="@style/PrimaryButton"
-        android:id="@+id/btnSend"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Send" />
