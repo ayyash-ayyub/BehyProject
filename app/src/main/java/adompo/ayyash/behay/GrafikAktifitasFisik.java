@@ -24,16 +24,21 @@ import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.formatter.IValueFormatter;
+import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.github.mikephil.charting.utils.EntryXComparator;
 import com.github.mikephil.charting.utils.ViewPortHandler;
@@ -41,6 +46,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import java.text.DecimalFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -48,22 +54,21 @@ import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import adompo.ayyash.behay.test.RiwayatAktifitasFisikList;
+import adompo.ayyash.behay.test.RiwayatAktifitasFisikModel;
 import adompo.ayyash.behay.test.RiwayatKondisiTubuhList;
 import adompo.ayyash.behay.test.RiwayatKondisiTubuhModel;
-import adompo.ayyash.behay.test.Umur;
 
 
-
-public class StatusGizi extends Fragment {
+public class GrafikAktifitasFisik extends Fragment {
 
     private ProgressDialog progressDialog;
     private TableLayout tl;
     private TableRow tr;
-    private LineChart mChart;
-    private int type;
+    private BarChart mChart;
 
-    public static StatusGizi newInstance() {
-        StatusGizi fragment = new StatusGizi();
+    public static GrafikAktifitasFisik newInstance() {
+        GrafikAktifitasFisik fragment = new GrafikAktifitasFisik();
         return fragment;
     }
 
@@ -75,16 +80,15 @@ public class StatusGizi extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_status_gizi, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_grafik_riwayat_fisik, container, false);
 
         progressDialog = new ProgressDialog(getActivity());
         progressDialog.setCancelable(false);
         progressDialog.setMessage("Silahkan Tunggu...");
 
         tl = (TableLayout) rootView.findViewById(R.id.table_status_gizi);
-        tl.setColumnShrinkable(4, true);
 
-        mChart = (LineChart) rootView.findViewById(R.id.chart_status_gizi);
+        mChart = (BarChart) rootView.findViewById(R.id.chart_riwayat_fisik);
         // no description text
         mChart.getDescription().setEnabled(false);
         // enable touch gestures
@@ -99,16 +103,10 @@ public class StatusGizi extends Fragment {
         mChart.setBackgroundColor(Color.WHITE);
         //mChart.setViewPortOffsets(0f, 0f, 0f, 0f);
 
-        // get argument from tabhost
-        Bundle bundle = getArguments();
-        type = bundle.getInt("StatusGiziType",0);
-
         loadData();
 
         return rootView;
     }
-
-
 
     private void loadData() {
         progressDialog.show();
@@ -117,12 +115,12 @@ public class StatusGizi extends Fragment {
         PrefManager prefManager = new PrefManager(getActivity());
         String email = prefManager.getActiveEmail();
 
-        String url = "http://administrator.behy.co/User/getRiwayatKondisiTubuh/" + email;
+        String url = "http://administrator.behy.co/User/getRiwayatAktifitasFisik/" + email;
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 Gson mGson = new GsonBuilder().create();
-                RiwayatKondisiTubuhList list = mGson.fromJson(response, RiwayatKondisiTubuhList.class);
+                RiwayatAktifitasFisikList list = mGson.fromJson(response, RiwayatAktifitasFisikList.class);
 
                 setData(list);
                 mChart.invalidate();
@@ -130,7 +128,7 @@ public class StatusGizi extends Fragment {
 
                 tl.removeAllViews();
                 addHeaders();
-                addData(list.getRiwayatKondisiTubuh());
+                addData(list.riwayatAktifitasFisik);
 
                 progressDialog.dismiss();
             }
@@ -148,70 +146,43 @@ public class StatusGizi extends Fragment {
         queue.add(stringRequest);
     }
 
-    private void setData(RiwayatKondisiTubuhList list) {
-        ArrayList<Entry> values = new ArrayList<Entry>();
+    private void setData(RiwayatAktifitasFisikList list) {
+        ArrayList<BarEntry> values = new ArrayList<>();
 
-        for (RiwayatKondisiTubuhModel model : list.getRiwayatKondisiTubuh()) {
-            float x = TimeUnit.SECONDS.toDays(model.timestamp);
-            float y = 0;
-            switch (type){
-                case 1: // IMT
-                    y = model.imt.floatValue();
-                    break;
-                case 2: // Berat Badan
-                    y = Float.valueOf(model.beratBadan);
-                    break;
-                case 3: // Tinggi Badan
-                    y = model.tinggiBadan.floatValue();
-                    break;
-                case 4: // Lemak Tubuh
-                    y = Float.valueOf(model.lemakTubuh);
-                    break;
-            }
-            values.add(new Entry(x,y));
+        for (RiwayatAktifitasFisikModel model : list.riwayatAktifitasFisik) {
+            float x = TimeUnit.SECONDS.toDays(Integer.valueOf(model.timestamp));
+            float y = Float.valueOf(model.kalori);
+            values.add(new BarEntry(x,y));
         }
         Collections.sort(values, new EntryXComparator());
 
         // create a dataset and give it a type
-        LineDataSet set1 = new LineDataSet(values, "DataSet 1");
-        set1.enableDashedLine(10f, 5f, 0f);
-        set1.enableDashedHighlightLine(10f, 5f, 0f);
-        set1.setColor(Color.BLACK);
-        set1.setCircleColor(Color.BLACK);
-        set1.setLineWidth(1f);
-        set1.setCircleRadius(3f);
-        set1.setDrawCircleHole(false);
-        set1.setValueTextSize(9f);
-        set1.setValueFormatter(new IValueFormatter() {
-            @Override
-            public String getFormattedValue(float value, Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
-                DecimalFormat df = null;
-                switch (type){
-                    case 1: // IMT
-                        df = new DecimalFormat("0.00");
-                        break;
-                    case 2: // Berat Badan
-                        df = new DecimalFormat("0.0");
-                        break;
-                    case 3: // Tinggi Badan
-                        df = new DecimalFormat("0.00");
-                        break;
-                    case 4: // Lemak Tubuh
-                        df = new DecimalFormat("0");
-                        break;
-                }
-                return df.format(value);
-            }
-        });
-        set1.setDrawFilled(false);
-        set1.setFormLineWidth(1f);
-        set1.setFormLineDashEffect(new DashPathEffect(new float[]{10f, 5f}, 0f));
-        set1.setFormSize(15.f);
+        BarDataSet set1 = new BarDataSet(values, "DataSet 1");
+        set1.setDrawIcons(false);
+//        set1.enableDashedLine(10f, 5f, 0f);
+//        set1.enableDashedHighlightLine(10f, 5f, 0f);
+        set1.setColor(0xFF20A6FA);
+//        set1.setColors(ColorTemplate.MATERIAL_COLORS);
+//        set1.setCircleColor(Color.BLACK);
+//        set1.setLineWidth(1f);
+//        set1.setCircleRadius(3f);
+//        set1.setDrawCircleHole(false);
+//        set1.setValueTextSize(9f);
+        // TODO Conseder usage of setValueFormatter
+//        set1.setDrawFilled(false);
+//        set1.setFormLineWidth(1f);
+//        set1.setFormLineDashEffect(new DashPathEffect(new float[]{10f, 5f}, 0f));
+//        set1.setFormSize(15.f);
+
+        // prepare dataSets
+        ArrayList<IBarDataSet> dataSets = new ArrayList<>();
+        dataSets.add(set1);
 
         // create a data object with the datasets
-        LineData data = new LineData(set1);
+        BarData data = new BarData(dataSets);
         data.setValueTextColor(Color.BLACK);
         data.setValueTextSize(9f);
+        data.setBarWidth(0.9f);
 
         // set data
         mChart.setData(data);
@@ -248,7 +219,7 @@ public class StatusGizi extends Fragment {
     }
 
     private void addHeaders() {
-        TextView tvTanggal, tvUmur, tvIMT, tvZScore, tvStatus;
+        TextView tvTanggal, tvKalori;
 
         // create a table row dynamically //
         tr = new TableRow(getContext());
@@ -266,50 +237,13 @@ public class StatusGizi extends Fragment {
         tvTanggal.setGravity(Gravity.CENTER);
         tr.addView(tvTanggal);
 
-        tvUmur = new TextView(getContext());
-        tvUmur.setText("Umur\n(Tahun,Bulan)");
-        tvUmur.setTextColor(Color.BLACK);
-        tvUmur.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
-        tvUmur.setPadding(5,5,5,0);
-        tvUmur.setGravity(Gravity.CENTER);
-        tr.addView(tvUmur);
-
-        tvIMT = new TextView(getContext());
-        switch (type){
-            case 1: // IMT
-                tvIMT.setText("IMT");
-                break;
-            case 2: // Berat Badan
-                tvIMT.setText("Berat Badan");
-                break;
-            case 3: // Tinggi Badan
-                tvIMT.setText("Tinggi Badan");
-                break;
-            case 4: // Lemak Tubuh
-                tvIMT.setText("Lemak Tubuh");
-                break;
-        }
-        tvIMT.setTextColor(Color.BLACK);
-        tvIMT.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
-        tvIMT.setPadding(5,5,5,0);
-        tvIMT.setGravity(Gravity.CENTER);
-        tr.addView(tvIMT);
-
-        tvZScore = new TextView(getContext());
-        tvZScore.setText("Z-Score");
-        tvZScore.setTextColor(Color.BLACK);
-        tvZScore.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
-        tvZScore.setPadding(5,5,5,0);
-        tvZScore.setGravity(Gravity.CENTER);
-        tr.addView(tvZScore);
-
-        tvStatus = new TextView(getContext());
-        tvStatus.setText("Status");
-        tvStatus.setTextColor(Color.BLACK);
-        tvStatus.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
-        tvStatus.setPadding(5,5,5,0);
-        tvStatus.setGravity(Gravity.CENTER);
-        tr.addView(tvStatus);
+        tvKalori = new TextView(getContext());
+        tvKalori.setText("Total Aktifitas Fisik\n(Kalori)"); // TODO change the text of kalori
+        tvKalori.setTextColor(Color.BLACK);
+        tvKalori.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
+        tvKalori.setPadding(5,5,5,0);
+        tvKalori.setGravity(Gravity.CENTER);
+        tr.addView(tvKalori);
 
         // Add the TableRow to the TableLayout
         tr.setBackgroundColor(Color.WHITE);
@@ -319,11 +253,11 @@ public class StatusGizi extends Fragment {
         ));
     }
 
-    private void addData(List<RiwayatKondisiTubuhModel> list) {
-        TextView tvTanggal, tvUmur, tvIMT, tvZScore, tvStatus;
+    private void addData(List<RiwayatAktifitasFisikModel> list) {
+        TextView tvTanggal, tvKalori;
 
         int i = 0;
-        for (RiwayatKondisiTubuhModel model : list) {
+        for (RiwayatAktifitasFisikModel model : list) {
             // create a table row dynamically //
             tr = new TableRow(getContext());
             tr.setLayoutParams(new LayoutParams(
@@ -331,61 +265,34 @@ public class StatusGizi extends Fragment {
                     LayoutParams.WRAP_CONTENT
             ));
 
+            SimpleDateFormat sFormat = new SimpleDateFormat("yyyy-MM-dd");
             SimpleDateFormat mFormat = new SimpleDateFormat("d/M/yy");
+            Date d = null;
+            try {
+                d = sFormat.parse(model.tanggal);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
 
             // Create textview to add to the row
             tvTanggal = new TextView(getContext());
-            tvTanggal.setText(mFormat.format(model.timestamp));
+            tvTanggal.setText(mFormat.format(d));
             tvTanggal.setTextColor(Color.BLACK);
             tvTanggal.setTypeface(Typeface.DEFAULT, Typeface.NORMAL);
             tvTanggal.setPadding(5,20,5,20);
             tvTanggal.setGravity(Gravity.CENTER);
             tr.addView(tvTanggal);
 
-            tvUmur = new TextView(getContext());
-            tvUmur.setText(String.format("%s,%s", model.umur.getTahun(), model.umur.getBulan()));
-            tvUmur.setTextColor(Color.BLACK);
-            tvUmur.setTypeface(Typeface.DEFAULT, Typeface.NORMAL);
-            tvUmur.setPadding(5,20,5,20);
-            tvUmur.setGravity(Gravity.CENTER);
-            tr.addView(tvUmur);
+            DecimalFormat df = new DecimalFormat("0");
+            double kalori = Double.valueOf(model.kalori);
 
-            tvIMT = new TextView(getContext());
-            switch (type){
-                case 1: // IMT
-                    tvIMT.setText(String.format("%.2f", model.imt.floatValue()));
-                    break;
-                case 2: // Berat Badan
-                    tvIMT.setText(String.format("%.1f", Float.valueOf(model.beratBadan)));
-                    break;
-                case 3: // Tinggi Badan
-                    tvIMT.setText(String.format("%.2f", model.tinggiBadan.floatValue()));
-                    break;
-                case 4: // Lemak Tubuh
-                    tvIMT.setText(String.format("%.0f", Float.valueOf(model.lemakTubuh)));
-                    break;
-            }
-            tvIMT.setTextColor(Color.BLACK);
-            tvIMT.setTypeface(Typeface.DEFAULT, Typeface.NORMAL);
-            tvIMT.setPadding(5,20,5,20);
-            tvIMT.setGravity(Gravity.CENTER);
-            tr.addView(tvIMT);
-
-            tvZScore = new TextView(getContext());
-            tvZScore.setText(model.zScore.toString());
-            tvZScore.setTextColor(Color.BLACK);
-            tvZScore.setTypeface(Typeface.DEFAULT, Typeface.NORMAL);
-            tvZScore.setPadding(5,20,5,20);
-            tvZScore.setGravity(Gravity.CENTER);
-            tr.addView(tvZScore);
-
-            tvStatus = new TextView(getContext());
-            tvStatus.setText(model.statusGizi);
-            tvStatus.setTextColor(Color.BLACK);
-            tvStatus.setTypeface(Typeface.DEFAULT, Typeface.NORMAL);
-            tvStatus.setPadding(5,20,5,20);
-            tvStatus.setGravity(Gravity.CENTER);
-            tr.addView(tvStatus);
+            tvKalori = new TextView(getContext());
+            tvKalori.setText(df.format(kalori));
+            tvKalori.setTextColor(Color.BLACK);
+            tvKalori.setTypeface(Typeface.DEFAULT, Typeface.NORMAL);
+            tvKalori.setPadding(5,20,5,20);
+            tvKalori.setGravity(Gravity.CENTER);
+            tr.addView(tvKalori);
 
             // set row background
             if (i++ % 2 == 0){

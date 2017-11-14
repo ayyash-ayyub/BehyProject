@@ -64,6 +64,9 @@ public class DetailMakanPagi extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_makan_pagi);
 
+
+
+
         pref = new PrefManager(getApplicationContext());
         user = pref.getActiveEmail().toString().trim();
 

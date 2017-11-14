@@ -64,6 +64,8 @@ public class ListActivity extends AppCompatActivity {
 
         activityButton = (Button) findViewById(R.id.activityButton);
 
+
+
         LinearLayoutManager llm = new LinearLayoutManager(this);
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         mAdapter = new AktifitasFisikAdapter(this);
