@@ -2,16 +2,16 @@ package adompo.ayyash.behay;
 
 import android.app.ProgressDialog;
 import android.graphics.Color;
-import android.graphics.DashPathEffect;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
@@ -28,25 +28,15 @@ import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
-import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.data.LineData;
-import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
-import com.github.mikephil.charting.formatter.IValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
-import com.github.mikephil.charting.utils.EntryXComparator;
-import com.github.mikephil.charting.utils.ViewPortHandler;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Locale;
-import java.util.concurrent.TimeUnit;
 
-import adompo.ayyash.behay.test.RiwayatKondisiTubuhModel;
 import adompo.ayyash.behay.test.SummaryModel;
 
 public class MyBehy extends Fragment {
@@ -64,13 +54,7 @@ public class MyBehy extends Fragment {
     public static MyBehy newInstance() {
         MyBehy fragment = new MyBehy();
         return fragment;
-
-
     }
-
-
-
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -104,16 +88,19 @@ public class MyBehy extends Fragment {
         mChart.setHighlightFullBarEnabled(false);
         mChart.setBackgroundColor(Color.TRANSPARENT);
 
-//
-//        mChart.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Toast.makeText(getContext(), "berhasil", Toast.LENGTH_SHORT).show();
-//            }
-//        });
+        mChart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Fragment fragment = new PemenuhanGiziTabHost();
 
-
-
+                getActivity()
+                        .getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.frame_layout, fragment)
+                        .addToBackStack(null)
+                        .commit();
+            }
+        });
 
         CardView card = (CardView) rootView.findViewById(R.id.mybehy_card_status_gizi);
         card.setOnClickListener(new View.OnClickListener() {
@@ -154,29 +141,39 @@ public class MyBehy extends Fragment {
         loadData();
     }
 
-    public void loadData(){
+    public void loadData() {
         progressDialog.show();
         RequestQueue queue = Volley.newRequestQueue(getActivity());
 
         PrefManager prefManager = new PrefManager(getContext());
         String email = prefManager.getActiveEmail();
 
-        String url = "http://administrator.behy.co/User/getMyBehy/ayyub@tampan.com/" + email;
+        String url = "http://administrator.behy.co/User/getMyBehy/" + email;
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 Gson mGson = new GsonBuilder().create();
                 SummaryModel model = mGson.fromJson(response, SummaryModel.class);
 
-                textPemenuhanGizi.setText(String.format(Locale.getDefault(),"%d %%",  (int)(model.pemenuhanGizi.energi * 100)));
-                textStatusGizi.setText(model.statusGizi.toUpperCase());
-                textBeratBadan.setText(String.format(Locale.getDefault(),"%d", model.beratBadan));
-                textLemakTubuh.setText(String.format(Locale.getDefault(),"%d", model.lemakTubuh));
-                textKaloriAktifitas.setText(String.format(Locale.getDefault(),"%d", model.kaloriAktifitasFisik.intValue()));
-                textKebutuhan.setText(String.format(Locale.getDefault(), "%d", model.kebutuhanGizi.energi.intValue()));
-                textAsupan.setText(String.format(Locale.getDefault(), "%d", model.asupanGizi.kalori.intValue()));
+                if (model.exist == 1) {
+                    textPemenuhanGizi.setText(String.format(Locale.getDefault(), "%d %%", (int) (model.pemenuhanGizi.energi * 100)));
+                    textStatusGizi.setText(model.statusGizi.toUpperCase());
+                    textBeratBadan.setText(String.format(Locale.getDefault(), "%d", model.beratBadan));
+                    textLemakTubuh.setText(String.format(Locale.getDefault(), "%d", model.lemakTubuh));
+                    textKaloriAktifitas.setText(String.format(Locale.getDefault(), "%d", model.kaloriAktifitasFisik.intValue()));
+                    textKebutuhan.setText(String.format(Locale.getDefault(), "%d", model.kebutuhanGizi.energi.intValue()));
+                    textAsupan.setText(String.format(Locale.getDefault(), "%d", model.asupanGizi.kalori.intValue()));
 
-                setChartData(model);
+                    setChartData(model);
+                } else {
+                    textPemenuhanGizi.setText("0 %");
+                    textStatusGizi.setText("INVALID");
+                    textBeratBadan.setText("0");
+                    textLemakTubuh.setText("0");
+                    textKaloriAktifitas.setText("0");
+                    textKebutuhan.setText("0");
+                    textAsupan.setText("0");
+                }
 
                 progressDialog.dismiss();
             }
@@ -203,7 +200,7 @@ public class MyBehy extends Fragment {
                 model.asupanGizi.lemak.floatValue()
         }));
         values.add(new BarEntry(1, new float[]{
-        model.kebutuhanGizi.karbohidrat.floatValue(),
+                model.kebutuhanGizi.karbohidrat.floatValue(),
                 model.kebutuhanGizi.protein.floatValue(),
                 model.kebutuhanGizi.lemak.floatValue()
         }));
@@ -229,8 +226,6 @@ public class MyBehy extends Fragment {
         setChartProperties();
 
         mChart.invalidate();
-
-
     }
 
     private void setChartProperties() {
@@ -244,11 +239,11 @@ public class MyBehy extends Fragment {
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setXOffset(-15.0f);
         xAxis.setGranularity(1.0f);
-        xAxis.setValueFormatter(new IAxisValueFormatter(){
+        xAxis.setValueFormatter(new IAxisValueFormatter() {
             @Override
             public String getFormattedValue(float value, AxisBase axis) {
                 String formattedValue = "";
-                if (value == 0){
+                if (value == 0) {
                     formattedValue = "Asupan";
                 } else {
                     formattedValue = "Kebutuhan";

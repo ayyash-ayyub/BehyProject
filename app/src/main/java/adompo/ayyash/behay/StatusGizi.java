@@ -34,23 +34,23 @@ import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.formatter.IValueFormatter;
-import com.github.mikephil.charting.utils.ColorTemplate;
 import com.github.mikephil.charting.utils.EntryXComparator;
 import com.github.mikephil.charting.utils.ViewPortHandler;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.sql.Timestamp;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 import adompo.ayyash.behay.test.RiwayatKondisiTubuhList;
 import adompo.ayyash.behay.test.RiwayatKondisiTubuhModel;
-import adompo.ayyash.behay.test.Umur;
 
 
 
@@ -101,14 +101,12 @@ public class StatusGizi extends Fragment {
 
         // get argument from tabhost
         Bundle bundle = getArguments();
-        type = bundle.getInt("StatusGiziType",0);
+        type = bundle.getInt("StatusGiziType", 0);
 
         loadData();
 
         return rootView;
     }
-
-
 
     private void loadData() {
         progressDialog.show();
@@ -124,9 +122,11 @@ public class StatusGizi extends Fragment {
                 Gson mGson = new GsonBuilder().create();
                 RiwayatKondisiTubuhList list = mGson.fromJson(response, RiwayatKondisiTubuhList.class);
 
-                setData(list);
-                mChart.invalidate();
-                formatLegend();
+                if (list.getRiwayatKondisiTubuh().size() > 0){
+                    setData(list);
+                    mChart.invalidate();
+                    formatLegend();
+                }
 
                 tl.removeAllViews();
                 addHeaders();
@@ -154,7 +154,7 @@ public class StatusGizi extends Fragment {
         for (RiwayatKondisiTubuhModel model : list.getRiwayatKondisiTubuh()) {
             float x = TimeUnit.SECONDS.toDays(model.timestamp);
             float y = 0;
-            switch (type){
+            switch (type) {
                 case 1: // IMT
                     y = model.imt.floatValue();
                     break;
@@ -186,7 +186,7 @@ public class StatusGizi extends Fragment {
             @Override
             public String getFormattedValue(float value, Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
                 DecimalFormat df = null;
-                switch (type){
+                switch (type) {
                     case 1: // IMT
                         df = new DecimalFormat("0.00");
                         break;
@@ -275,7 +275,7 @@ public class StatusGizi extends Fragment {
         tr.addView(tvUmur);
 
         tvIMT = new TextView(getContext());
-        switch (type){
+        switch (type) {
             case 1: // IMT
                 tvIMT.setText("IMT");
                 break;
@@ -335,7 +335,7 @@ public class StatusGizi extends Fragment {
 
             // Create textview to add to the row
             tvTanggal = new TextView(getContext());
-            tvTanggal.setText(mFormat.format(model.timestamp));
+            tvTanggal.setText(mFormat.format(new Date((long)model.timestamp * 1000)));
             tvTanggal.setTextColor(Color.BLACK);
             tvTanggal.setTypeface(Typeface.DEFAULT, Typeface.NORMAL);
             tvTanggal.setPadding(5,20,5,20);
@@ -351,18 +351,18 @@ public class StatusGizi extends Fragment {
             tr.addView(tvUmur);
 
             tvIMT = new TextView(getContext());
-            switch (type){
+            switch (type) {
                 case 1: // IMT
-                    tvIMT.setText(String.format("%.2f", model.imt.floatValue()));
+                    tvIMT.setText(String.format(Locale.getDefault(), "%.2f", model.imt.floatValue()));
                     break;
                 case 2: // Berat Badan
-                    tvIMT.setText(String.format("%.1f", Float.valueOf(model.beratBadan)));
+                    tvIMT.setText(String.format(Locale.getDefault(), "%.1f", Float.valueOf(model.beratBadan)));
                     break;
                 case 3: // Tinggi Badan
-                    tvIMT.setText(String.format("%.2f", model.tinggiBadan.floatValue()));
+                    tvIMT.setText(String.format(Locale.getDefault(), "%.2f", model.tinggiBadan.floatValue()));
                     break;
                 case 4: // Lemak Tubuh
-                    tvIMT.setText(String.format("%.0f", Float.valueOf(model.lemakTubuh)));
+                    tvIMT.setText(String.format(Locale.getDefault(), "%.0f", Float.valueOf(model.lemakTubuh)));
                     break;
             }
             tvIMT.setTextColor(Color.BLACK);
