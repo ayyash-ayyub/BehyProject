@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://E:\ANDROID\BehyGit\Behy1.iml" filepath="E:\ANDROID\BehyGit\Behy1.iml" />
-      <module fileurl="file://$PROJECT_DIR$/BehyProject.iml" filepath="$PROJECT_DIR$/BehyProject.iml" />
+      <module fileurl="file://$PROJECT_DIR$/BehyGit.iml" filepath="$PROJECT_DIR$/BehyGit.iml" />
+      <module fileurl="file://E:\ANDROID\BehyGit\BehyGit.iml" filepath="E:\ANDROID\BehyGit\BehyGit.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

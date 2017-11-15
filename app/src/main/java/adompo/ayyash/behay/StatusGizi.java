@@ -33,21 +33,24 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
-import com.github.mikephil.charting.utils.ColorTemplate;
+import com.github.mikephil.charting.formatter.IValueFormatter;
 import com.github.mikephil.charting.utils.EntryXComparator;
+import com.github.mikephil.charting.utils.ViewPortHandler;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.sql.Timestamp;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 import adompo.ayyash.behay.test.RiwayatKondisiTubuhList;
 import adompo.ayyash.behay.test.RiwayatKondisiTubuhModel;
-import adompo.ayyash.behay.test.Umur;
 
 
 
@@ -56,13 +59,13 @@ public class StatusGizi extends Fragment {
     private ProgressDialog progressDialog;
     private TableLayout tl;
     private TableRow tr;
+    private LineChart mChart;
+    private int type;
 
     public static StatusGizi newInstance() {
         StatusGizi fragment = new StatusGizi();
         return fragment;
     }
-
-    private LineChart mChart;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -79,6 +82,7 @@ public class StatusGizi extends Fragment {
         progressDialog.setMessage("Silahkan Tunggu...");
 
         tl = (TableLayout) rootView.findViewById(R.id.table_status_gizi);
+        tl.setColumnShrinkable(4, true);
 
         mChart = (LineChart) rootView.findViewById(R.id.chart_status_gizi);
         // no description text
@@ -94,6 +98,10 @@ public class StatusGizi extends Fragment {
         // set an alternative background color
         mChart.setBackgroundColor(Color.WHITE);
         //mChart.setViewPortOffsets(0f, 0f, 0f, 0f);
+
+        // get argument from tabhost
+        Bundle bundle = getArguments();
+        type = bundle.getInt("StatusGiziType", 0);
 
         loadData();
 
@@ -114,9 +122,11 @@ public class StatusGizi extends Fragment {
                 Gson mGson = new GsonBuilder().create();
                 RiwayatKondisiTubuhList list = mGson.fromJson(response, RiwayatKondisiTubuhList.class);
 
-                setData(list);
-                mChart.invalidate();
-                formatLegend();
+                if (list.getRiwayatKondisiTubuh().size() > 0){
+                    setData(list);
+                    mChart.invalidate();
+                    formatLegend();
+                }
 
                 tl.removeAllViews();
                 addHeaders();
@@ -142,8 +152,22 @@ public class StatusGizi extends Fragment {
         ArrayList<Entry> values = new ArrayList<Entry>();
 
         for (RiwayatKondisiTubuhModel model : list.getRiwayatKondisiTubuh()) {
-            float x = TimeUnit.SECONDS.toDays(model.getTimestamp());
-            float y = model.getZScore().floatValue();
+            float x = TimeUnit.SECONDS.toDays(model.timestamp);
+            float y = 0;
+            switch (type) {
+                case 1: // IMT
+                    y = model.imt.floatValue();
+                    break;
+                case 2: // Berat Badan
+                    y = Float.valueOf(model.beratBadan);
+                    break;
+                case 3: // Tinggi Badan
+                    y = model.tinggiBadan.floatValue();
+                    break;
+                case 4: // Lemak Tubuh
+                    y = Float.valueOf(model.lemakTubuh);
+                    break;
+            }
             values.add(new Entry(x,y));
         }
         Collections.sort(values, new EntryXComparator());
@@ -158,6 +182,27 @@ public class StatusGizi extends Fragment {
         set1.setCircleRadius(3f);
         set1.setDrawCircleHole(false);
         set1.setValueTextSize(9f);
+        set1.setValueFormatter(new IValueFormatter() {
+            @Override
+            public String getFormattedValue(float value, Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
+                DecimalFormat df = null;
+                switch (type) {
+                    case 1: // IMT
+                        df = new DecimalFormat("0.00");
+                        break;
+                    case 2: // Berat Badan
+                        df = new DecimalFormat("0.0");
+                        break;
+                    case 3: // Tinggi Badan
+                        df = new DecimalFormat("0.00");
+                        break;
+                    case 4: // Lemak Tubuh
+                        df = new DecimalFormat("0");
+                        break;
+                }
+                return df.format(value);
+            }
+        });
         set1.setDrawFilled(false);
         set1.setFormLineWidth(1f);
         set1.setFormLineDashEffect(new DashPathEffect(new float[]{10f, 5f}, 0f));
@@ -230,7 +275,20 @@ public class StatusGizi extends Fragment {
         tr.addView(tvUmur);
 
         tvIMT = new TextView(getContext());
-        tvIMT.setText("IMT");
+        switch (type) {
+            case 1: // IMT
+                tvIMT.setText("IMT");
+                break;
+            case 2: // Berat Badan
+                tvIMT.setText("Berat Badan");
+                break;
+            case 3: // Tinggi Badan
+                tvIMT.setText("Tinggi Badan");
+                break;
+            case 4: // Lemak Tubuh
+                tvIMT.setText("Lemak Tubuh");
+                break;
+        }
         tvIMT.setTextColor(Color.BLACK);
         tvIMT.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
         tvIMT.setPadding(5,5,5,0);
@@ -273,9 +331,11 @@ public class StatusGizi extends Fragment {
                     LayoutParams.WRAP_CONTENT
             ));
 
+            SimpleDateFormat mFormat = new SimpleDateFormat("d/M/yy");
+
             // Create textview to add to the row
             tvTanggal = new TextView(getContext());
-            tvTanggal.setText(model.getTanggal());
+            tvTanggal.setText(mFormat.format(new Date((long)model.timestamp * 1000)));
             tvTanggal.setTextColor(Color.BLACK);
             tvTanggal.setTypeface(Typeface.DEFAULT, Typeface.NORMAL);
             tvTanggal.setPadding(5,20,5,20);
@@ -283,18 +343,28 @@ public class StatusGizi extends Fragment {
             tr.addView(tvTanggal);
 
             tvUmur = new TextView(getContext());
-           // tvUmur.setText(String.format("%s,%s", model.getUmur().getTahun(), model.getUmur()));
-            tvUmur.setText(String.format("%s,%s", model.getUmur().getTahun(), model.getUmur().getBulan()));
+            tvUmur.setText(String.format("%s,%s", model.umur.getTahun(), model.umur.getBulan()));
             tvUmur.setTextColor(Color.BLACK);
             tvUmur.setTypeface(Typeface.DEFAULT, Typeface.NORMAL);
             tvUmur.setPadding(5,20,5,20);
             tvUmur.setGravity(Gravity.CENTER);
             tr.addView(tvUmur);
 
-
-
             tvIMT = new TextView(getContext());
-            tvIMT.setText(String.format("%.2f", model.getImt().floatValue()));
+            switch (type) {
+                case 1: // IMT
+                    tvIMT.setText(String.format(Locale.getDefault(), "%.2f", model.imt.floatValue()));
+                    break;
+                case 2: // Berat Badan
+                    tvIMT.setText(String.format(Locale.getDefault(), "%.1f", Float.valueOf(model.beratBadan)));
+                    break;
+                case 3: // Tinggi Badan
+                    tvIMT.setText(String.format(Locale.getDefault(), "%.2f", model.tinggiBadan.floatValue()));
+                    break;
+                case 4: // Lemak Tubuh
+                    tvIMT.setText(String.format(Locale.getDefault(), "%.0f", Float.valueOf(model.lemakTubuh)));
+                    break;
+            }
             tvIMT.setTextColor(Color.BLACK);
             tvIMT.setTypeface(Typeface.DEFAULT, Typeface.NORMAL);
             tvIMT.setPadding(5,20,5,20);
@@ -302,7 +372,7 @@ public class StatusGizi extends Fragment {
             tr.addView(tvIMT);
 
             tvZScore = new TextView(getContext());
-            tvZScore.setText(model.getZScore().toString());
+            tvZScore.setText(model.zScore.toString());
             tvZScore.setTextColor(Color.BLACK);
             tvZScore.setTypeface(Typeface.DEFAULT, Typeface.NORMAL);
             tvZScore.setPadding(5,20,5,20);
@@ -310,7 +380,7 @@ public class StatusGizi extends Fragment {
             tr.addView(tvZScore);
 
             tvStatus = new TextView(getContext());
-            tvStatus.setText(model.getStatusGizi());
+            tvStatus.setText(model.statusGizi);
             tvStatus.setTextColor(Color.BLACK);
             tvStatus.setTypeface(Typeface.DEFAULT, Typeface.NORMAL);
             tvStatus.setPadding(5,20,5,20);

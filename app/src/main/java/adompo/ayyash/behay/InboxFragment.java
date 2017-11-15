@@ -47,10 +47,10 @@ public class InboxFragment extends Fragment {
 
         LinearLayoutManager llm = new LinearLayoutManager(getActivity());
         llm.setOrientation(LinearLayoutManager.VERTICAL);
-        mAdapter = new AktifitasFisikUserAdapter(getActivity());
-        rv_item = (RecyclerView) rootView.findViewById(R.id.rvInbox);
-        rv_item.setLayoutManager(llm);
-        rv_item.setAdapter(mAdapter);
+//        mAdapter = new AktifitasFisikUserAdapter(getActivity());
+//        rv_item = (RecyclerView) rootView.findViewById(R.id.rvInbox);
+//        rv_item.setLayoutManager(llm);
+//        rv_item.setAdapter(mAdapter);
 
         fbAdd = (FloatingActionButton)rootView.findViewById(R.id.fb_add);
         fbAdd.setOnClickListener(new View.OnClickListener() {

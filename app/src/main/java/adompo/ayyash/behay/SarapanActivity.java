@@ -1,14 +1,16 @@
 package adompo.ayyash.behay;
 
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -61,12 +63,10 @@ public class SarapanActivity extends AppCompatActivity implements AsupanAdapter.
             }
         });
 
-        Intent i = getIntent();
-        idJenisMakan = i.getExtras().getInt("id", 0);
+        Intent receiveIntent = getIntent();
+        idJenisMakan = receiveIntent.getExtras().getInt("id", 0);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-       // toolbar.setForeground(Color.blue());
-        toolbar.setTitleTextColor(Color.WHITE);
         toolbar.setTitle(getTitle(idJenisMakan));
         setSupportActionBar(toolbar);
     }
@@ -75,22 +75,22 @@ public class SarapanActivity extends AppCompatActivity implements AsupanAdapter.
         String title = "";
         switch (idJenisMakan) {
             case 1:
-                title = "Rekam sarapan pagi";
+                title = "Makan Pagi";
                 break;
             case 2:
-                title = "Rekam selingan pagi";
+                title = "Selingan Pagi";
                 break;
             case 3:
-                title = "Rekam Makan Siang";
+                title = "Makan Siang";
                 break;
             case 4:
-                title = "Rekam selingan siang";
+                title = "Selingan Siang";
                 break;
             case 5:
-                title = "Rekam makan malam";
+                title = "Makan Malam";
                 break;
             case 6:
-                title = "Rekam selingan malam";
+                title = "Selingan Malam";
                 break;
         }
         return title;
@@ -136,7 +136,42 @@ public class SarapanActivity extends AppCompatActivity implements AsupanAdapter.
     }
 
     @Override
-    public void onClick(int asupanId) {
-        Toast.makeText(this, "Delete asupan makanan with id: " + asupanId, Toast.LENGTH_SHORT).show();
+    public void onClick(final int asupanId, String namaAsupan) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Konfirmasi");
+        builder.setMessage("Apakah anda yakin ingin menghapus "+getTitle(idJenisMakan)+"\n" + namaAsupan + " ?");
+        builder.setPositiveButton("Hapus", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                deleteData("http://administrator.behy.co/User/deleteFoodRecord/" + asupanId);  // TODO Change this url to Config
+            }
+        });
+        builder.setNegativeButton("Batalkan", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // do nothing
+            }
+        });
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
+
+    public void deleteData(String url) {
+        progressDialog.show();
+        RequestQueue queue = Volley.newRequestQueue(this);
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                progressDialog.dismiss();
+                loadData();
+                Log.d("uye jadi hapus", response);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                progressDialog.dismiss();
+                Log.e("uye gagal hapus", error.toString());
+            }
+        });
+        queue.add(stringRequest);
     }
 }

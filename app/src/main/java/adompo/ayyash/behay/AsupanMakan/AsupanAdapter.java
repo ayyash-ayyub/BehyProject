@@ -53,7 +53,7 @@ public class AsupanAdapter extends RecyclerView.Adapter<AsupanAdapter.AsupanView
     }
 
     public interface AsupanDeleteClickHandler {
-        void onClick(int asupanId);
+        void onClick(int asupanId, String namaAsupan);
     }
 
     class AsupanViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -78,9 +78,9 @@ public class AsupanAdapter extends RecyclerView.Adapter<AsupanAdapter.AsupanView
         public void onClick(View v) {
             int position = getAdapterPosition();
             if (position != RecyclerView.NO_POSITION) {
-                // TODO ini harusnya bukan idMakanan, tapi idFoodRecord
-                int id = Integer.valueOf(listAsupan.get(position).idMakanan);
-                clickHandler.onClick(id);
+                int id = Integer.valueOf(listAsupan.get(position).id);
+                String nama = listAsupan.get(position).makanan;
+                clickHandler.onClick(id, nama);
             }
         }
     }
