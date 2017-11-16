@@ -237,7 +237,7 @@ public class MyBehy extends Fragment {
         xAxis.setDrawGridLines(false);
         xAxis.setDrawAxisLine(false);
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-        xAxis.setXOffset(-15.0f);
+        xAxis.setXOffset(-18.0f);
         xAxis.setGranularity(1.0f);
         xAxis.setValueFormatter(new IAxisValueFormatter() {
             @Override
