@@ -159,6 +159,8 @@ public class MainAdapterNews extends RecyclerView.Adapter<MainAdapterNews.MainHo
             txt_tanggal = (TextView) itemView.findViewById(R.id.txtTgl);
             txt_label = (TextView)itemView.findViewById(R.id.txtLabel);
             cardview_item = (CardView) itemView.findViewById(R.id.cv_item);
+
+            img_banner.setAlpha(127);
         }
     }
 }

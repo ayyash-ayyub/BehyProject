@@ -5,28 +5,33 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:layout_gravity="center_vertical"
+    android:background="@drawable/bg_login"
     tools:context="adompo.ayyash.behay.Register"
     >
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:title="Register"
-        android:titleTextColor="#fff"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
-        app:popupTheme="@style/AppTheme.PopupOverlay" />
+
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <LinearLayout
+            android:gravity="center_horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="15dp">
 
+            <ImageView
+                android:layout_marginBottom="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/logo" />
+
             <EditText
+                android:background="@drawable/rounded_edittext"
+                android:padding="10dp"
+                android:layout_marginBottom="10dp"
                 android:id="@+id/txtNama"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -35,6 +40,10 @@
                 android:inputType="textPersonName" />
 
             <RadioGroup
+                android:orientation="horizontal"
+                android:background="@drawable/rounded_edittext"
+                android:padding="10dp"
+                android:layout_marginBottom="10dp"
                 android:id="@+id/jk"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -44,17 +53,22 @@
                     android:id="@+id/radioButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Laki-laki" />
+                    android:text="Laki-laki"
+                    android:layout_weight="1"/>
 
                 <RadioButton
                     android:id="@+id/radioButton2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Perempuan" />
+                    android:text="Perempuan"
+                    android:layout_weight="1"/>
 
             </RadioGroup>
 
             <EditText
+                android:background="@drawable/rounded_edittext"
+                android:padding="10dp"
+                android:layout_marginBottom="10dp"
                 android:id="@+id/txtemail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -63,6 +77,9 @@
                 android:inputType="textEmailAddress" />
 
             <EditText
+                android:background="@drawable/rounded_edittext"
+                android:padding="10dp"
+                android:layout_marginBottom="10dp"
                 android:id="@+id/txtPass"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -71,6 +88,9 @@
                 android:inputType="textPassword" />
 
             <EditText
+                android:background="@drawable/rounded_edittext"
+                android:padding="10dp"
+                android:layout_marginBottom="10dp"
                 android:id="@+id/txtDate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -80,6 +100,9 @@
                 android:inputType="none" />
 
             <EditText
+                android:background="@drawable/rounded_edittext"
+                android:padding="10dp"
+                android:layout_marginBottom="10dp"
                 android:id="@+id/txtBerat"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -88,6 +111,9 @@
                 android:inputType="numberDecimal" />
 
             <EditText
+                android:background="@drawable/rounded_edittext"
+                android:padding="10dp"
+                android:layout_marginBottom="10dp"
                 android:id="@+id/txtTinggi"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -98,7 +124,7 @@
             <Button
                 android:theme="@style/PrimaryButton"
                 android:id="@+id/btnDaftar"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="DAFTAR" />
 

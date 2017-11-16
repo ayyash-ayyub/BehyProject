@@ -1,13 +1,18 @@
 package adompo.ayyash.behay;
 
+import android.annotation.TargetApi;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTabHost;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 
 public class BukuHarian extends Fragment {
+
     public static BukuHarian newInstance() {
         BukuHarian fragment = new BukuHarian();
         return fragment;
@@ -18,10 +23,16 @@ public class BukuHarian extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
+
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+        getActivity().setTitle("your title");
 
         tabHost = new FragmentTabHost(getActivity());
         tabHost.setup(getActivity(), getChildFragmentManager(), R.id.frame_layout);
@@ -30,7 +41,6 @@ public class BukuHarian extends Fragment {
         arg1.putInt("Arg for Frag1", 1);
         tabHost.addTab(tabHost.newTabSpec("Tab1").setIndicator("Asupan Makanan"),
                 AsupanMakanan.class, arg1);
-
 
         Bundle arg2 = new Bundle();
         arg2.putInt("Arg for Frag2", 2);
