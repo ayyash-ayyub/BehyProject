@@ -10,6 +10,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -35,6 +36,7 @@ public class UtamaActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
     private String getEmail;
+    private ActionBar actionBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +57,8 @@ public class UtamaActivity extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        actionBar = getSupportActionBar();
+        actionBar.setTitle("Behy");
 
         bottomNavigationView.setOnNavigationItemSelectedListener
                 (new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -63,18 +67,24 @@ public class UtamaActivity extends AppCompatActivity {
                         Fragment selectedFragment = null;
                         switch (item.getItemId()) {
                             case R.id.action_item1:
+                                actionBar.setTitle("Behy");
                                 selectedFragment = MyBehy.newInstance();
                                 break;
                             case R.id.action_item2:
+
+                                actionBar.setTitle("Buku Harian");
                                 selectedFragment = BukuHarian.newInstance();
                                 break;
                             case R.id.action_item3:
+                                actionBar.setTitle("Tips Sehat");
                                 selectedFragment = News.newInstance();
                                 break;
                             case R.id.action_item4:
+                                actionBar.setTitle("Info Sehat");
                                 selectedFragment = InfoSehat.newInstance();
                                 break;
                             case R.id.action_item5:
+                                actionBar.setTitle("Inbox");
                                 selectedFragment = InboxFragment.newInstance();
                                 break;
                         }
