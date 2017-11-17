@@ -26,18 +26,12 @@
             <TextView
                 android:id="@+id/tvSubject"
                 android:layout_width="match_parent"
+                android:gravity="left"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text=""
-                android:textSize="18sp"
+                android:textSize="15sp"
                 android:textStyle="bold"
                 tools:text="The text will be here" />
-
-            <ImageView
-                android:id="@+id/imgNew"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:srcCompat="@drawable/ic_fiber_new_black_24px" />
 
         </LinearLayout>
 
@@ -46,6 +40,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Administrator"
+            android:gravity="left"
+            android:textColor="#7c7c7c" />
+
+        <TextView
+            android:id="@+id/tvMsg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Pesan"
+            android:gravity="left"
             android:textColor="#7c7c7c" />
 
     </LinearLayout>

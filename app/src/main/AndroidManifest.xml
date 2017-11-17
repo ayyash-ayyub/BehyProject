@@ -48,7 +48,8 @@
         <activity android:name=".Profile" />
         <activity android:name=".Support" />
         <activity android:name=".Syarat" />
-        <activity android:name=".Panduan"></activity>
+        <activity android:name=".Panduan" />
+        <activity android:name=".inbox.DetilInbox"></activity>
     </application>
 
 </manifest>

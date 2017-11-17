@@ -2,9 +2,12 @@ package adompo.ayyash.behay;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,13 +26,16 @@ import java.util.Map;
 
 public class NewMessage extends AppCompatActivity {
 
+    public static final String KEY_EMAIL = "email";
     public static final String KEY_JUDUL = "subjek";
     public static final String KEY_PESAN = "pesan";
     public static final String KEY_REPLY = "id_reply";
     public static final String KEY_PENERIMA= "receiver";
-    public static final String KEY_EMAIL = "email";
+
 
     EditText txtPesan, txtSubjek;
+    Button btnSend;
+    PrefManager pref;
 
 
     ProgressDialog progressDialog;
@@ -38,14 +44,27 @@ public class NewMessage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_message);
 
-
+        pref = new PrefManager(this);
 
         progressDialog = new ProgressDialog(this);
         progressDialog.setCancelable(false);
         progressDialog.setMessage("Silahkan Tunggu...");
 
-        txtPesan = (EditText) findViewById(R.id.txtPesan);
+        txtPesan = (EditText)findViewById(R.id.txtPesan);
         txtSubjek = (EditText)findViewById(R.id.txtSubject);
+
+        btnSend = (Button)findViewById(R.id.btnSend);
+        btnSend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (txtPesan.getText().equals("") || txtSubjek.getText().equals("")){
+                    Toast.makeText(NewMessage.this, "Cek Lagi", Toast.LENGTH_SHORT).show();
+                }else{
+                    save();
+                }
+
+            }
+        });
 
         getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
     }
@@ -56,14 +75,14 @@ public class NewMessage extends AppCompatActivity {
         final String subjek = txtSubjek.getText().toString().trim();
         final String pesan = txtPesan.getText().toString().trim();
         final String id_reply = "".trim();
-        final String receiver = "1";
-        final String email = "test".toString().trim();
+        final String receiver = "1".trim();
+        final String email = pref.getActiveEmail();
 
 
 
 
 
-        StringRequest sR = new StringRequest(Request.Method.POST, ConfigUmum.REGISTER,
+        StringRequest sR = new StringRequest(Request.Method.POST, ConfigUmum.NEWMESSAGE,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -72,8 +91,6 @@ public class NewMessage extends AppCompatActivity {
 
 
                         progressDialog.dismiss();
-                        Intent i = new Intent(getApplicationContext(), LoginActivity.class);
-                        startActivity(i);
                         finish();
                     }
                 },
@@ -87,12 +104,11 @@ public class NewMessage extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put(KEY_JUDUL, subjek);
-                params.put(KEY_PESAN, pesan);
+                params.put(KEY_EMAIL, email);
                 params.put(KEY_REPLY, id_reply);
                 params.put(KEY_PENERIMA, receiver);
-                params.put(KEY_EMAIL, email);
-
+                params.put(KEY_JUDUL, subjek);
+                params.put(KEY_PESAN, pesan);
 
                 return params;
             }

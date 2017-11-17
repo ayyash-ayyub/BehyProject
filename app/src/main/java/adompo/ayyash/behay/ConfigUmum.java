@@ -19,6 +19,11 @@ public class ConfigUmum {
     public static String REGISTER = "http://"+IP+"/User/registerParticipant";
 
 
+    //Messege
+    public static String NEWMESSAGE = "http://"+IP+"/Message/insertMessage";
+    public static String URL_INBOX = "http://"+IP+"/Message/getListInbox/";
+
+
 
 
     public static final String SAVE_AKTIFITAS_FISIK = "http://"+IP+"/User/setAktifitasFisik";

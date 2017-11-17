@@ -1,6 +1,7 @@
 package adompo.ayyash.behay.AktifitasFisikUser;
 
 import android.content.Context;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +19,8 @@ public class AktifitasFisikUserAdapter extends RecyclerView.Adapter<AktifitasFis
     private Context context;
     private List<AktifitasFisikUserModel.Results> data;
     private AktifitasFisikUserDeleteClickHandler mHandler;
+
+
 
     public interface AktifitasFisikUserDeleteClickHandler {
         void onClick(int aktifitasId, String aktifitasText);
