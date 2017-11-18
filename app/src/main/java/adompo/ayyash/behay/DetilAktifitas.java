@@ -36,7 +36,7 @@ public class DetilAktifitas extends AppCompatActivity {
     String nmaktifitas,kal,gambar, user;
     Button btnPlus, btnMin, btnSave;
     EditText txtDurasi;
-    int x;
+    double x;
     ProgressDialog progressDialog;
     PrefManager pref;
 
@@ -81,7 +81,8 @@ public class DetilAktifitas extends AppCompatActivity {
         btnMin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                x = Integer.parseInt(txtDurasi.getText().toString());
+              //  x = Integer.parseInt(txtDurasi.getText().toString());
+                x = Double.parseDouble(txtDurasi.getText().toString());
 
                 if (x == 0){
 

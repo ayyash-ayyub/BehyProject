@@ -74,8 +74,8 @@ public class NewMessage extends AppCompatActivity {
         progressDialog.show();
         final String subjek = txtSubjek.getText().toString().trim();
         final String pesan = txtPesan.getText().toString().trim();
-        final String id_reply = "".trim();
-        final String receiver = "1".trim();
+        final String id_reply = "0";
+        final String receiver = "1";
         final String email = pref.getActiveEmail();
 
 
@@ -97,7 +97,7 @@ public class NewMessage extends AppCompatActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(getApplicationContext(), error.toString(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_LONG).show();
                         progressDialog.dismiss();
                     }
                 }) {
