@@ -38,6 +38,9 @@ public class Register extends AppCompatActivity {
     public static final String KEY_PASS = "password";
     public static final String KEY_BERAT = "berat_badan";
     public static final String KEY_TINGGI = "tinggi_badan";
+    public static final String KEY_FAKTOR_AKTIFITAS= "faktor_aktifitas";
+
+    double faktorAktifitas;
 
 
     String jenisKelamin="";
@@ -48,8 +51,10 @@ public class Register extends AppCompatActivity {
 
     EditText txt_nama,  txt_ttl, txt_email,  txt_password, txt_tinggi, txt_berat;
     RadioGroup rgjk;
+    RadioGroup rgAktifitasnya;
     private int mYear, mMonth, mDay;
     RadioButton jeniskelamin;
+    RadioButton aktifitasSedang, aktifitasRingan, aktifitasBerat, aktifitasSangatBerat;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,11 +67,62 @@ public class Register extends AppCompatActivity {
 
         txt_nama = (EditText)findViewById(R.id.txtNama);
         rgjk = (RadioGroup)findViewById(R.id.jk);
+        rgAktifitasnya = (RadioGroup)findViewById(R.id.rbAktifitas) ;
 
         txt_ttl      = (EditText) findViewById(R.id.txtDate);
         txt_email   = (EditText)findViewById(R.id.txtemail);
         txt_berat     = (EditText)findViewById(R.id.txtBerat);
         txt_tinggi     = (EditText)findViewById(R.id.txtTinggi);
+
+
+
+
+        //data oilihan aktifitas
+        aktifitasRingan = (RadioButton)findViewById(R.id.radioButtonRingan) ;
+        aktifitasSedang = (RadioButton)findViewById(R.id.radioButtonSedang) ;
+        aktifitasBerat = (RadioButton)findViewById(R.id.radioButtonBerat) ;
+        aktifitasSangatBerat = (RadioButton)findViewById(R.id.radioButtonSangatBerat) ;
+
+
+
+
+
+
+        aktifitasRingan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Toast.makeText(Register.this, "Menonton TV, membaca, belajar, tidak melakukan olah raga", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        aktifitasSedang.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Toast.makeText(Register.this, "Olahraga 1-3 hari seminggu", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        aktifitasBerat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Toast.makeText(Register.this, "Olahraga 3-5 hari seminggu", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        aktifitasSangatBerat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Toast.makeText(Register.this, "Olahraga 6-7 hari seminggu", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+
+
 
         txt_ttl.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,13 +149,44 @@ public class Register extends AppCompatActivity {
 
         tomboldaftar = (Button)findViewById(R.id.btnDaftar);
 
+
+
+
+
+
+
+
         tomboldaftar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 int selectedJK = rgjk.getCheckedRadioButtonId();
-
                 jeniskelamin = (RadioButton)findViewById(selectedJK);
+
+
+
+                  if(aktifitasRingan.isChecked()) {
+                      faktorAktifitas = 1.2;
+                      //Toast.makeText(Register.this, "nilai"+ faktorAktifitas, Toast.LENGTH_SHORT).show();
+                  }
+
+                if(aktifitasSedang.isChecked()) {
+                    faktorAktifitas = 1.375;
+                  //  Toast.makeText(Register.this, "nilai"+ faktorAktifitas, Toast.LENGTH_SHORT).show();
+                }
+
+
+                if(aktifitasBerat.isChecked()) {
+                    faktorAktifitas = 1.55;
+                   // Toast.makeText(Register.this, "nilai"+ faktorAktifitas, Toast.LENGTH_SHORT).show();
+                }
+
+                if(aktifitasSangatBerat.isChecked()) {
+                    faktorAktifitas = 1.725;
+                   // Toast.makeText(Register.this, "nilai"+ faktorAktifitas, Toast.LENGTH_SHORT).show();
+                }
+
+
 
 
                 if(txt_nama.getText().toString().isEmpty()
@@ -110,8 +197,7 @@ public class Register extends AppCompatActivity {
                         || txt_tinggi.getText().toString().equals("")){
                     Toast.makeText(getApplicationContext(),"pastikan data terisi semua", Toast.LENGTH_LONG).show();
                 } else {
-                    // Toast.makeText(getApplicationContext(),"sip: " + jeniskelamin.getText().toString(), Toast.LENGTH_LONG).show();
-                    //  Toast.makeText(getApplicationContext(),"jadi: " + txt_ttl.getText().toString(),Toast.LENGTH_LONG).show();
+
 
                     save();
                 }
@@ -132,6 +218,8 @@ public class Register extends AppCompatActivity {
 
 
     private void save() {
+
+
         progressDialog.show();
         final String nama = txt_nama.getText().toString().trim();
         final String jenis_kelamin = jeniskelamin.getText().toString().trim();
@@ -140,6 +228,7 @@ public class Register extends AppCompatActivity {
         final String password = txt_password.getText().toString().trim();
         final String berat_badan = txt_berat.getText().toString().trim();
         final String tinggi_badan = txt_tinggi.getText().toString().trim();
+        final String faktor_aktifitas = String.valueOf(Double.parseDouble(String.valueOf(faktorAktifitas)));
 
 
 
@@ -176,6 +265,7 @@ public class Register extends AppCompatActivity {
                 params.put(KEY_PASS, password);
                 params.put(KEY_BERAT, berat_badan);
                 params.put(KEY_TINGGI, tinggi_badan);
+                params.put(KEY_FAKTOR_AKTIFITAS, faktor_aktifitas);
 
                 return params;
             }

@@ -121,6 +121,54 @@
                 android:hint="Tinggi Badan (cm)"
                 android:inputType="numberDecimal" />
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Aktifitas"
+                android:textSize="18sp" />
+
+
+            <RadioGroup
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:id="@+id/rbAktifitas"
+                android:background="@drawable/rounded_edittext"
+
+                android:checkedButton="@+id/radioButton"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+                <RadioButton
+                    android:id="@+id/radioButtonRingan"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Ringan" />
+
+                <RadioButton
+                    android:id="@+id/radioButtonSedang"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Sedang" />
+
+                <RadioButton
+                android:id="@+id/radioButtonBerat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Berat" />
+
+                <RadioButton
+                    android:id="@+id/radioButtonSangatBerat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Sangat Berat" />
+
+            </RadioGroup>
+
             <Button
                 android:theme="@style/PrimaryButton"
                 android:id="@+id/btnDaftar"
