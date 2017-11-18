@@ -55,7 +55,7 @@ public class DetailMakanPagi extends AppCompatActivity {
     ProgressDialog progressDialog;
     Button btnPlus, btnMin;
     Urt urt;
-    int x;
+    double x;
     int idWaktuMakan, idMakanan;
     String user;
 
@@ -87,7 +87,8 @@ public class DetailMakanPagi extends AppCompatActivity {
         btnMin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                x = Integer.parseInt(txtDurasi.getText().toString());
+             //   x = Integer.parseInt(txtDurasi.getText().toString());
+                x = Double.parseDouble(txtDurasi.getText().toString());
 
                 if (x == 0) {
 
