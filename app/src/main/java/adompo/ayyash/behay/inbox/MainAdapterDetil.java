@@ -45,7 +45,7 @@ public class MainAdapterDetil extends RecyclerView.Adapter<MainAdapterDetil.Main
 
     @Override
     public MainHolderInbox onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_inbox, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_inbox_kiri, parent, false);
         MainHolderInbox mainHolder = new MainHolderInbox(view);
         return mainHolder;
     }
