@@ -22,6 +22,7 @@ public class ConfigUmum {
     //Messege
     public static String NEWMESSAGE = "http://"+IP+"/Message/insertMessage";
     public static String URL_INBOX = "http://"+IP+"/Message/getListInbox/";
+    public static String URL_INBOX_DETIL = "http://"+IP+"/Message/getDetilInbox/";
 
 
 

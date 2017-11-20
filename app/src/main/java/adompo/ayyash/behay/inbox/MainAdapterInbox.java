@@ -86,6 +86,7 @@ public class MainAdapterInbox extends RecyclerView.Adapter<MainAdapterInbox.Main
 //                Toast.makeText(context, resultsList.get(position).id, Toast.LENGTH_SHORT).show();
                 Intent i = new Intent(context, DetilInbox.class);
                 i.putExtra("id", idvalue);
+                i.putExtra("subject", resultsList.get(position).subjek);
                 view.getContext().startActivity(i);
 
 
