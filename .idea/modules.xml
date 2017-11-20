@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/BehyGit.iml" filepath="$PROJECT_DIR$/BehyGit.iml" />
-      <module fileurl="file://$PROJECT_DIR$/BehyProject.iml" filepath="$PROJECT_DIR$/BehyProject.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

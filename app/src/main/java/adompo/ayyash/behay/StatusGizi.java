@@ -7,6 +7,7 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -82,7 +83,7 @@ public class StatusGizi extends Fragment {
         progressDialog.setMessage("Silahkan Tunggu...");
 
         tl = (TableLayout) rootView.findViewById(R.id.table_status_gizi);
-        tl.setColumnShrinkable(4, true);
+        tl.setColumnShrinkable(3, true); //
 
         mChart = (LineChart) rootView.findViewById(R.id.chart_status_gizi);
         // no description text
@@ -218,6 +219,8 @@ public class StatusGizi extends Fragment {
         mChart.setAutoScaleMinMaxEnabled(true);
     }
 
+
+
     private void formatLegend() {
         // get the legend (only possible after setting data)
         Legend l = mChart.getLegend();
@@ -248,7 +251,7 @@ public class StatusGizi extends Fragment {
     }
 
     private void addHeaders() {
-        TextView tvTanggal, tvUmur, tvIMT, tvZScore, tvStatus;
+        TextView tvTanggal, tvUmur, tvIMT, tvStatus;
 
         // create a table row dynamically //
         tr = new TableRow(getContext());
@@ -295,14 +298,6 @@ public class StatusGizi extends Fragment {
         tvIMT.setGravity(Gravity.CENTER);
         tr.addView(tvIMT);
 
-        tvZScore = new TextView(getContext());
-        tvZScore.setText("Z-Score");
-        tvZScore.setTextColor(Color.BLACK);
-        tvZScore.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
-        tvZScore.setPadding(5,5,5,0);
-        tvZScore.setGravity(Gravity.CENTER);
-        tr.addView(tvZScore);
-
         tvStatus = new TextView(getContext());
         tvStatus.setText("Status");
         tvStatus.setTextColor(Color.BLACK);
@@ -320,7 +315,7 @@ public class StatusGizi extends Fragment {
     }
 
     private void addData(List<RiwayatKondisiTubuhModel> list) {
-        TextView tvTanggal, tvUmur, tvIMT, tvZScore, tvStatus;
+        TextView tvTanggal, tvUmur, tvIMT, tvStatus;
 
         int i = 0;
         for (RiwayatKondisiTubuhModel model : list) {
@@ -370,14 +365,6 @@ public class StatusGizi extends Fragment {
             tvIMT.setPadding(5,20,5,20);
             tvIMT.setGravity(Gravity.CENTER);
             tr.addView(tvIMT);
-
-            tvZScore = new TextView(getContext());
-            tvZScore.setText(model.zScore.toString());
-            tvZScore.setTextColor(Color.BLACK);
-            tvZScore.setTypeface(Typeface.DEFAULT, Typeface.NORMAL);
-            tvZScore.setPadding(5,20,5,20);
-            tvZScore.setGravity(Gravity.CENTER);
-            tr.addView(tvZScore);
 
             tvStatus = new TextView(getContext());
             tvStatus.setText(model.statusGizi);
