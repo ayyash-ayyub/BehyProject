@@ -75,6 +75,10 @@ public class MainAdapterInbox extends RecyclerView.Adapter<MainAdapterInbox.Main
         holder.tvSubjek.setText(resultsList.get(position).subjek);
         holder.tvPengirim.setText(resultsList.get(position).nama);
 
+        if (resultsList.get(position).mark == 1 ){
+            holder.imgNew.setVisibility(View.GONE);
+        }
+
 
         final int idvalue = resultsList.get(position).id;
 

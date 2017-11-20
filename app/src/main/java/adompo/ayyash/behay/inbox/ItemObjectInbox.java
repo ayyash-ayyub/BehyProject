@@ -21,7 +21,7 @@ public class ItemObjectInbox {
             public String subjek;
 
             @SerializedName("mark")
-            public String mark;
+            public int mark;
 
             @SerializedName("tanggal")
             public String tanggal;
