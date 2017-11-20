@@ -27,27 +27,55 @@ import adompo.ayyash.behay.TipsSehatDetail;
 //import adompo.ayyash.behay.ConfigUmum;
 
 
-public class MainAdapterDetil extends RecyclerView.Adapter<MainAdapterDetil.MainHolderInbox> {
+public class MainAdapterDetil extends RecyclerView.Adapter<MainAdapterDetil.MainHolderDetil> {
 
     ProgressDialog progressDialog;
+    private static final int VIEW_TYPE_MESSAGE_SENT = 1;
+    private static final int VIEW_TYPE_MESSAGE_RECEIVED = 2;
+    public static String a;
 
 
 
-    public List<ItemObjectInbox.ObjectInbox.Results> resultsList;
+
+    public List<ItemObjectDetil.ObjectDetil.Results> resultsList;
     public Context context;
 
-    public MainAdapterDetil(Context context, List<ItemObjectInbox.ObjectInbox.Results> resultsList) {
+    public MainAdapterDetil(Context context, List<ItemObjectDetil.ObjectDetil.Results> resultsList) {
         this.context = context;
         this.resultsList = resultsList;
     }
 
+    @Override
+    public int getItemViewType(int position) {
 
+        a = resultsList.get(position).sender;
+
+        if (a=="1") {
+// If the current user is the sender of the message
+            return VIEW_TYPE_MESSAGE_SENT;
+        } else {
+// If some other user sent the message
+            return VIEW_TYPE_MESSAGE_RECEIVED;
+        }
+    }
 
     @Override
-    public MainHolderInbox onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_inbox_kiri, parent, false);
-        MainHolderInbox mainHolder = new MainHolderInbox(view);
-        return mainHolder;
+    public MainHolderDetil onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view;
+        MainHolderDetil mainHolder;
+
+        switch (viewType){
+            case VIEW_TYPE_MESSAGE_SENT:
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_inbox_kiri, parent, false);
+                mainHolder = new MainHolderDetil(view);
+                return mainHolder;
+            case VIEW_TYPE_MESSAGE_RECEIVED:
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_inbox_kiri, parent, false);
+                mainHolder = new MainHolderDetil(view);
+                return mainHolder;
+        }
+
+        return null;
     }
 
     public void DeleteData(String Url) {
@@ -69,9 +97,13 @@ public class MainAdapterDetil extends RecyclerView.Adapter<MainAdapterDetil.Main
     }
 
     @Override
-    public void onBindViewHolder(MainHolderInbox holder, final int position) {
-        holder.tvSubjek.setText(resultsList.get(position).subjek);
-        holder.tvPengirim.setText(resultsList.get(position).nama);
+    public void onBindViewHolder(MainHolderDetil holder, final int position) {
+        holder.tvMsg.setText(resultsList.get(position).pesan);
+        holder.tvPengirim.setText(resultsList.get(position).nama_sender);
+        holder.tvTgl.setText(resultsList.get(position).tanggal);
+        if (resultsList.get(position).sender.equals("1")){
+            holder.tvMsg.setGravity(View.TEXT_ALIGNMENT_VIEW_END);
+        }
 
 
         final int idvalue = resultsList.get(position).id;
@@ -82,9 +114,9 @@ public class MainAdapterDetil extends RecyclerView.Adapter<MainAdapterDetil.Main
 
 
 //                Toast.makeText(context, resultsList.get(position).id, Toast.LENGTH_SHORT).show();
-                Intent i = new Intent(context, TipsSehatDetail.class);
-                i.putExtra("id", idvalue);
-                view.getContext().startActivity(i);
+//                Intent i = new Intent(context, TipsSehatDetail.class);
+//                i.putExtra("id", idvalue);
+//                view.getContext().startActivity(i);
 
 
 
@@ -100,17 +132,18 @@ public class MainAdapterDetil extends RecyclerView.Adapter<MainAdapterDetil.Main
 
 
 
-    public final static class MainHolderInbox extends RecyclerView.ViewHolder {
+    public final static class MainHolderDetil extends RecyclerView.ViewHolder {
 
         ImageView imgNew;
-        TextView tvSubjek, tvPengirim;
+        TextView tvMsg, tvPengirim, tvTgl;
         CardView cardview_item;
 
-        MainHolderInbox(View itemView) {
+        MainHolderDetil(View itemView) {
             super(itemView);
 
             imgNew = (ImageView)itemView.findViewById(R.id.imgNew);
-            tvSubjek = (TextView) itemView.findViewById(R.id.tvSubject);
+            tvMsg = (TextView) itemView.findViewById(R.id.tvMsg);
+            tvTgl = (TextView) itemView.findViewById(R.id.tvTanggal);
             tvPengirim = (TextView) itemView.findViewById(R.id.tvPengirim);
             cardview_item = (CardView) itemView.findViewById(R.id.cvInbox);
 

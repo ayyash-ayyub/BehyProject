@@ -6,24 +6,27 @@ import java.util.List;
 
 
 public class ItemObjectDetil {
-    public class ObjectInbox {
-        @SerializedName("list_inbox")
-        public List<Results> list_inbox;
+    public class ObjectDetil {
+        @SerializedName("pesan")
+        public List<Results> pesan;
 
         public class Results {
             @SerializedName("id")
             public int id;
 
-            @SerializedName("nama")
-            public String nama;
+            @SerializedName("sender")
+            public String sender;
+
+            @SerializedName("nama_sender")
+            public String nama_sender;
 
             @SerializedName("subjek")
             public String subjek;
 
-            @SerializedName("mark")
-            public String mark;
+            @SerializedName("pesan")
+            public String pesan;
 
-            @SerializedName("tanggal")
+            @SerializedName("updated_at")
             public String tanggal;
 
 
