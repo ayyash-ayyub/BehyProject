@@ -1,5 +1,6 @@
 package adompo.ayyash.behay;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -52,6 +53,14 @@ public class StatusGiziTabHost extends Fragment {
         tabHost.addTab(tabHost.newTabSpec("Tab4").setIndicator("Lemak Tubuh"),
                 StatusGizi.class, arg4);
 
+
+        Bundle arguments = getArguments();
+        int tabIndex = arguments.getInt("ACTIVE_TAB", -1);
+        tabHost.setCurrentTab(tabIndex);
+
         return tabHost;
     }
+
+
+
 }

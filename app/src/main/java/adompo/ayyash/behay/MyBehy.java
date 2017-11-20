@@ -102,11 +102,50 @@ public class MyBehy extends Fragment {
             }
         });
 
-        CardView card = (CardView) rootView.findViewById(R.id.mybehy_card_status_gizi);
-        card.setOnClickListener(new View.OnClickListener() {
+        CardView statusGiziCard = (CardView) rootView.findViewById(R.id.mybehy_card_status_gizi);
+        statusGiziCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Bundle arguments = new Bundle();
+                arguments.putInt("ACTIVE_TAB",0);
                 Fragment fragment = new StatusGiziTabHost();
+                fragment.setArguments(arguments);
+
+                getActivity()
+                        .getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.frame_layout, fragment)
+                        .addToBackStack(null)
+                        .commit();
+            }
+        });
+
+        CardView beratBadanCard = (CardView) rootView.findViewById(R.id.mybehy_card_berat_badan);
+        beratBadanCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle arguments = new Bundle();
+                arguments.putInt("ACTIVE_TAB",1);
+                Fragment fragment = new StatusGiziTabHost();
+                fragment.setArguments(arguments);
+
+                getActivity()
+                        .getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.frame_layout, fragment)
+                        .addToBackStack(null)
+                        .commit();
+            }
+        });
+
+        CardView lemakTubuhCard = (CardView) rootView.findViewById(R.id.mybehy_card_lemak_tubuh);
+        lemakTubuhCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle arguments = new Bundle();
+                arguments.putInt("ACTIVE_TAB",3);
+                Fragment fragment = new StatusGiziTabHost();
+                fragment.setArguments(arguments);
 
                 getActivity()
                         .getSupportFragmentManager()

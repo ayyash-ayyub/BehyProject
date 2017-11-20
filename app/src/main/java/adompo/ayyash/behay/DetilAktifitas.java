@@ -2,6 +2,7 @@ package adompo.ayyash.behay;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.support.design.widget.Snackbar;
@@ -14,6 +15,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.android.volley.DefaultRetryPolicy;
@@ -27,6 +29,7 @@ import com.android.volley.toolbox.Volley;
 import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 public class DetilAktifitas extends AppCompatActivity {
@@ -34,9 +37,10 @@ public class DetilAktifitas extends AppCompatActivity {
     TextView txtAktifitas, txtKal;
     ImageView img;
     String nmaktifitas,kal,gambar, user;
-    Button btnPlus, btnMin, btnSave;
+//    Button btnPlus, btnMin;
+    Button btnSave;
     EditText txtDurasi;
-    double x;
+    int x;
     ProgressDialog progressDialog;
     PrefManager pref;
 
@@ -77,47 +81,65 @@ public class DetilAktifitas extends AppCompatActivity {
         Picasso.with(getApplicationContext()).load("http://"+ConfigUmum.IP+"/public/assets/images/"+gambar).into(img);
 
         txtDurasi = (EditText)findViewById(R.id.txtDurasi);
-        btnMin = (Button)findViewById(R.id.btnMin);
-        btnMin.setOnClickListener(new View.OnClickListener() {
+        txtDurasi.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-              //  x = Integer.parseInt(txtDurasi.getText().toString());
-                x = Double.parseDouble(txtDurasi.getText().toString());
-
-                if (x == 0){
-
-                    Snackbar snackbar = Snackbar
-                            .make(view, "Minimal lebih dari 1 menit", Snackbar.LENGTH_LONG)
-                            .setAction("RETRY", new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-                                }
-                            });
-
-                    snackbar.show();
-                }
-                else{
-                    x=x-1;
-                    txtDurasi.setText(""+x);
-                }
+            public void onClick(View v) {
+                int parseInt = Integer.valueOf(txtDurasi.getText().toString());
+                int hour = parseInt / 60;
+                int minute = parseInt % 60;
+                TimePickerDialog mTimePicker;
+                mTimePicker =  new TimePickerDialog(DetilAktifitas.this, new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                        int totalMinute = hourOfDay * 60 + minute;
+                        txtDurasi.setText(String.format(Locale.getDefault(), "%d", totalMinute));
+                    }
+                }, hour, minute, true);
+                mTimePicker.setTitle("Masukkan durasi aktifitas");
+                mTimePicker.show();
             }
         });
-        btnPlus = (Button)findViewById(R.id.btnPlus);
-        btnPlus.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                x = Integer.parseInt(txtDurasi.getText().toString());
 
-                if (x >= 0){
-
-                    x=x+1;
-                    txtDurasi.setText(""+x);
-                }
-                else{
-
-                }
-            }
-        });
+//        btnMin = (Button)findViewById(R.id.btnMin);
+//        btnMin.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                x = Integer.parseInt(txtDurasi.getText().toString());
+//
+//                if (x == 0){
+//
+//                    Snackbar snackbar = Snackbar
+//                            .make(view, "Minimal lebih dari 1 menit", Snackbar.LENGTH_LONG)
+//                            .setAction("RETRY", new View.OnClickListener() {
+//                                @Override
+//                                public void onClick(View view) {
+//                                }
+//                            });
+//
+//                    snackbar.show();
+//                }
+//                else{
+//                    x=x-1;
+//                    txtDurasi.setText(""+x);
+//                }
+//            }
+//        });
+//        btnPlus = (Button)findViewById(R.id.btnPlus);
+//        btnPlus.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                x = Integer.parseInt(txtDurasi.getText().toString());
+//
+//                if (x >= 0){
+//
+//                    x=x+1;
+//                    txtDurasi.setText(""+x);
+//                }
+//                else{
+//
+//                }
+//            }
+//        });
         btnSave = (Button)findViewById(R.id.btnSave);
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -176,7 +198,7 @@ public class DetilAktifitas extends AppCompatActivity {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Snackbar snackbar = Snackbar
-                                .make(view, "Minimal lebih dari 1 menit", Snackbar.LENGTH_LONG)
+                                .make(view, "hubungi behy.app@gmail.com", Snackbar.LENGTH_LONG)
                                 .setAction("RETRY", new View.OnClickListener() {
                                     @Override
                                     public void onClick(View view) {
