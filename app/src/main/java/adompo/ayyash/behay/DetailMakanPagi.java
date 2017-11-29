@@ -102,7 +102,7 @@ public class DetailMakanPagi extends AppCompatActivity {
 
                     snackbar.show();
                 } else {
-                    x = x - 1;
+                    x = x - 0.5;
                     txtDurasi.setText("" + x);
                 }
             }
@@ -111,11 +111,11 @@ public class DetailMakanPagi extends AppCompatActivity {
         btnPlus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                x = Integer.parseInt(txtDurasi.getText().toString());
+                x = Double.parseDouble(txtDurasi.getText().toString());
 
                 if (x >= 0) {
 
-                    x = x + 1;
+                    x = x + 0.5;
                     txtDurasi.setText("" + x);
                 } else {
 

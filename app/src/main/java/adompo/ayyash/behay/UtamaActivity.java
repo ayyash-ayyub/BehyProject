@@ -85,7 +85,7 @@ public class UtamaActivity extends AppCompatActivity {
                                 break;
                             case R.id.action_item5:
                                 actionBar.setTitle("Inbox");
-                                selectedFragment = InboxFragment.newInstance();
+                                selectedFragment = TabInbox.newInstance();
                                 break;
                         }
                         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();

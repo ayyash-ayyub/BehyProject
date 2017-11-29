@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -98,7 +99,7 @@ public class MainAdapterDetil extends RecyclerView.Adapter<MainAdapterDetil.Main
 
     @Override
     public void onBindViewHolder(MainHolderDetil holder, final int position) {
-        holder.tvMsg.setText(resultsList.get(position).pesan);
+        holder.tvMsg.setText(Html.fromHtml(resultsList.get(position).pesan));
         holder.tvPengirim.setText(resultsList.get(position).nama_sender);
         holder.tvTgl.setText(resultsList.get(position).tanggal);
         if (resultsList.get(position).sender.equals("1")){
