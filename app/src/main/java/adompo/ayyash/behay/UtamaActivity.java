@@ -135,7 +135,7 @@ public class UtamaActivity extends AppCompatActivity {
                     startActivity(i);
                 }else if (title.equals("Feedback")){
                     Fragment selectedFragment = null;
-                    selectedFragment = InboxFragment.newInstance();
+                    selectedFragment = TabInbox.newInstance();
                     FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                     transaction.replace(R.id.frame_layout, selectedFragment);
                     transaction.commit();
